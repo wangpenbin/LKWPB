@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<p v-text="link">你能看见我吗
+				bclsdla
+			</p>
+			<a v-bind:href="link">百度</a>
+			<p >你也能看见我吗</p>
+			<template>
+				<h1>1</h1>
+				<p v-html="name">在一个模板里面</p>
+				<p></p>
+			</template>	
+			<p>你能耐看见</p> 
+			<input @click="show=!show" type="button" id="" value="swich" />
+		</div>
+	</body>
+</html>
+	
+<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	new Vue({
+		el:"#app",
+		data:{
+			
+			link:"https://www.baidu.com",
+			name:"hloo",	
+		},
+	})
+</script>

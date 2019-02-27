@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<p >姓名<input type="text" name="" id="" placeholder="请输入你的姓名"  v-model="username"/></p>
+			<p >年龄<input type="text" name="" id="" placeholder="请输入你的年龄" v-model="age" /></p>
+			<input type="button" id="" value="添加"  v-on:click="add()"/>
+			<input type="button" name="" id="" value="删除所有" v-on:click="delso()" />
+			<div >
+				<table border="" cellspacing="" cellpadding="">
+					<tr>
+						<th>序号</th>
+						<th>姓名</th>
+						<th>年龄</th>
+						<th>删除</th>
+					</tr>
+					<tr v-for=" (index,item) in mydata ">
+						<td>{{index+1}}</td>
+						<td>{{item.name}}</td>
+						<td>{{item.age}}</td>
+						<td><input v-on:click="del(index)" type="button" name="" id="" value="delete" /></td>
+					</tr>
+				</table>
+				
+					
+			</div>
+
+		</div>
+	</body>
+</html>
+<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	new Vue({
+		el:"#app",
+		data:{
+			username:"",
+			age:"",
+			mydata:[],
+		},
+		methods:{
+			
+			add:function(){
+				this.mydata.push({
+				indexv:this.index,
+				name:this.username,
+				age:this.age
+			})
+				this.username='';
+				this.age="";
+			},
+			
+			delso:function(event){
+				this.mydata=[];
+				this.index=1;
+			},
+			del : function(num){
+				this.mydata.splice(num,1);
+				
+			}
+			
+		}
+		
+		
+	})
+</script>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<input type="text" v-on:input="change" name="" id="" value="" />
+			<p>{{title}}</p>
+		</div>
+	</body>
+</html>
+<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript">
+	new Vue({
+		el:"#app",
+		data:{
+			title:"hello world",
+		},
+		methods:{
+			change:function(event){
+				this.title=event.target.value;
+			}
+				
+			
+		}
+	});
+	
+	
+</script>
