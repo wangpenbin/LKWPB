@@ -1,0 +1,141 @@
+HP 提供了 mysqli_connect() 函数来连接数据库。
+
+该函数有 6 个参数，在成功链接到 MySQL 后返回连接标识，失败返回 FALSE 。
+
+语法
+mysqli_connect(host,username,password,dbname,port,socket);
+host	可选。规定主机名或 IP 地址。
+username	可选。规定 MySQL 用户名。
+password	可选。规定 MySQL 密码。
+dbname	可选。规定默认使用的数据库。
+port	可选。规定尝试连接到 MySQL 服务器的端口号。
+socket	可选。规定 socket 或要使用的已命名 pipe。
+例：
+<?php
+$dbhost = 'localhost:3306';  // mysql服务器主机地址
+$dbuser = 'root';            // mysql用户名
+$dbpass = '123456';          // mysql用户名密码
+$conn = mysqli_connect($dbhost, $dbuser, $dbpass);
+if(! $conn )
+{
+    die('Could not connect: ' . mysqli_error());
+}
+echo '数据库连接成功！';
+mysqli_close($conn);
+?>
+
+2，创建数据库：
+ CREATE DATABASE 数据库名;
+
+$sql = 'CREATE DATABASE RUNOOB';
+$retval = mysqli_query($conn,$sql );
+3，删除数据库
+<?php
+$dbhost = 'localhost:3306';  // mysql服务器主机地址
+$dbuser = 'root';            // mysql用户名
+$dbpass = '123456';          // mysql用户名密码
+$conn = mysqli_connect($dbhost, $dbuser, $dbpass);
+if(! $conn )
+{
+    die('连接失败: ' . mysqli_error($conn));
+}
+echo '连接成功<br />';
+$sql = 'DROP DATABASE RUNOOB';
+$retval = mysqli_query( $conn, $sql );
+if(! $retval )
+{
+    die('删除数据库失败: ' . mysqli_error($conn));
+}
+echo "数据库 RUNOOB 删除成功\n";
+mysqli_close($conn);
+?>
+4，选择数据库
+语法
+mysqli_select_db(connection,dbname);
+参数	描述
+connection	必需。规定要使用的 MySQL 连接。
+dbname	必需，规定要使用的默认数据库。
+5，MySQL 创建数据表
+语法
+以下为创建MySQL数据表的SQL通用语法：
+
+CREATE TABLE table_name (column_name column_type);
+--------------------
+$sql='CREATE TABLE IF NOT EXISTS `runoob_tbl`(
+   `id` INT UNSIGNED AUTO_INCREMENT,
+   `runoob_title` VARCHAR(100) NOT NULL,
+   `runoob_author` VARCHAR(40) NOT NULL,
+   `submission_date` DATE,
+   PRIMARY KEY ( `id` )
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+$retval = mysqli_query( $conn, $sql );
+
+实例解析：
+
+如果你不想字段为 NULL 可以设置字段的属性为 NOT NULL， 在操作数据库时如果输入该字段的数据为NULL ，就会报错。
+AUTO_INCREMENT定义列为自增的属性，一般用于主键，数值会自动加1。
+PRIMARY KEY关键字用于定义列为主键。 您可以使用多列来定义主键，列间以逗号分隔。
+ENGINE 设置存储引擎，CHARSET 设置编码。
+
+5，插入数据：
+// 设置编码，防止中文乱码
+mysqli_query($conn , "set names utf8");
+ 
+$runoob_title = '学习 Python';
+$runoob_author = 'RUNOOB.COM';
+$submission_date = '2016-03-06';
+ 
+$sql = "INSERT INTO runoob_tbl ".
+        "(runoob_title,runoob_author, submission_date) ".
+        "VALUES ".
+        "('$runoob_title','$runoob_author','$submission_date')";
+ 
+ 
+ 
+mysqli_select_db( $conn, 'RUNOOB' );
+$retval = mysqli_query( $conn, $sql );
+查询数据表：
+/
+尝试以下实例来显示数据表 runoob_tbl 的所有记录。
+
+使用 mysqli_fetch_array MYSQLI_ASSOC 参数获取数据：
+<?php
+$dbhost = 'localhost:3306';  // mysql服务器主机地址
+$dbuser = 'root';            // mysql用户名
+$dbpass = '123456';          // mysql用户名密码
+$conn = mysqli_connect($dbhost, $dbuser, $dbpass);
+if(! $conn )
+{
+    die('连接失败: ' . mysqli_error($conn));
+}
+// 设置编码，防止中文乱码
+mysqli_query($conn , "set names utf8");
+ 
+$sql = 'SELECT runoob_id, runoob_title, 
+        runoob_author, submission_date
+        FROM runoob_tbl';
+ 
+mysqli_select_db( $conn, 'RUNOOB' );
+$retval = mysqli_query( $conn, $sql );
+if(! $retval )
+{
+    die('无法读取数据: ' . mysqli_error($conn));
+}
+echo '<h2>菜鸟教程 mysqli_fetch_array 测试<h2>';
+echo '<table border="1"><tr><td>教程 ID</td><td>标题</td><td>作者</td><td>提交日期</td></tr>';
+while($row = mysqli_fetch_array($retval, MYSQLI_ASSOC))
+{
+    echo "<tr><td> {$row['runoob_id']}</td> ".
+         "<td>{$row['runoob_title']} </td> ".
+         "<td>{$row['runoob_author']} </td> ".
+         "<td>{$row['submission_date']} </td> ".
+         "</tr>";
+}
+echo '</table>';
+mysqli_close($conn);
+?>/
+
+------
+// 释放内存
+mysqli_free_result($retval);
+--------
